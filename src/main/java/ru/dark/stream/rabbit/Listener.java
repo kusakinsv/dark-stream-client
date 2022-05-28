@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.dark.stream.controller.RabbitController;
 import ru.dark.stream.model.MusicTrack;
+import ru.dark.stream.playlist.PlaylistUpdater;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @EnableRabbit
@@ -30,15 +32,10 @@ public class Listener {
         if (message.startsWith("PLAYLIST_")) {
             message = message.substring(9);
             ObjectMapper objectMapper = new ObjectMapper();
-            object = objectMapper.readValue(message, List.class);
-            List<MusicTrack> trackList = (List<MusicTrack>) object;
-            trackList.toString();
+            object = objectMapper.readValue(message, MusicTrack[].class);
+            MusicTrack[] castedObject = (MusicTrack[]) object;
+            List<MusicTrack> trackList = Arrays.asList(castedObject);
+            PlaylistUpdater.playlist = trackList;
+            PlaylistUpdater.updated = true;
         }
-
-
-//    @RabbitListener(queues = "dark-stream-queue-server")
-//    public void processQueue1(String message) throws JsonProcessingException {
-//        System.out.println(("Received from queue: " + message));
-//        interpritate(message);
-//    }
     }}

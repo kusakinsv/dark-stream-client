@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.dark.stream.config.player.AudioPlayer;
 import ru.dark.stream.model.MusicTrack;
 import ru.dark.stream.model.Playlist;
+import ru.dark.stream.playlist.PlaylistUpdater;
 import ru.dark.stream.utils.InternetMusicSercher;
 
 import java.io.IOException;
@@ -32,6 +33,8 @@ public class MainController {
 
     static List<MusicTrack> trackList = new ArrayList<>();
     static List<MusicTrack> playlist = new ArrayList<>();
+    public static boolean updated = false;
+
 
     @RequestMapping(value = {"/index"}, method = RequestMethod.GET)
     public String index(Model model) {
@@ -67,9 +70,13 @@ public class MainController {
     }
 
     @GetMapping("get_playlist")
-    public ResponseEntity getPlayList() throws JsonProcessingException {
+    public String getPlayList(Model model) throws JsonProcessingException {
         serviceLayer.getPlayList();
-        return new ResponseEntity<>("", responseHeaders, HttpStatus.OK);
+        System.out.println("ПОЕХАЛИ");
+        trackList = PlaylistUpdater.playlist;
+        model.addAttribute("playlist", trackList);
+        model.addAttribute("mainPageMessage", "ВАШ ПЛЕЙЛИСТ");
+        return "search";
     }
 
     @GetMapping("add-{number}")

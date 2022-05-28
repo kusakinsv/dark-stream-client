@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.dark.stream.model.MusicTrack;
+import ru.dark.stream.playlist.PlaylistUpdater;
+
+import java.util.List;
 
 @Service
 public class ServiceLayer {
@@ -30,6 +33,15 @@ public class ServiceLayer {
     public void getPlayList(){
         String serializedValue = "PLAYLIST";
         controller.sendAndRecieve(serializedValue);
+        try {
+            if (!PlaylistUpdater.updated) {
+                while (!PlaylistUpdater.updated) {
+                    Thread.sleep(200);
+                }
+            }
+        }catch (Exception e){}
+        System.out.println("ПОЛУЧЕНО: ");
+        PlaylistUpdater.updated = false;
     }
 
     public void replaceTrack() {

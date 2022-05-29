@@ -5,7 +5,7 @@ import lombok.SneakyThrows;
 
 import javax.sound.sampled.Clip;
 
-public class Audio implements Runnable {
+public class Audio extends Thread {
     Player player;
 
     @SneakyThrows

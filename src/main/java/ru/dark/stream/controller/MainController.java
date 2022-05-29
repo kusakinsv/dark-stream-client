@@ -57,7 +57,7 @@ public class MainController {
                 sublist.add(trackList.get(i));
             }
         }
-        System.out.println(sublist);
+//        System.out.println(sublist);
         trackList = sublist;
         String mainPageMessage = "Найденные треки: ";
         model.addAttribute("playlist", trackList);
@@ -72,11 +72,10 @@ public class MainController {
     @GetMapping("get_playlist")
     public String getPlayList(Model model) throws JsonProcessingException {
         serviceLayer.getPlayList();
-        System.out.println("ПОЕХАЛИ");
         trackList = PlaylistUpdater.playlist;
         model.addAttribute("playlist", trackList);
         model.addAttribute("mainPageMessage", "ВАШ ПЛЕЙЛИСТ");
-        return "search";
+        return "playlist";
     }
 
     @GetMapping("add-{number}")

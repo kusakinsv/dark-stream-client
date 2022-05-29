@@ -23,9 +23,11 @@ public class AudioPlayer {
             File soundFile = downloadFile(musicTrack.getUrl());
             FileInputStream fileInputStream = new FileInputStream(soundFile);
             player = new Player(fileInputStream);
-            Audio audio = new Audio(player);
-            playerThread = new Thread(audio);
+
+//            Audio audio = new Audio(player);
+            playerThread = new Audio(player);
             playerThread.start();
+
             isPlayed = true;
         } catch (IOException | JavaLayerException exc) {
             exc.printStackTrace();

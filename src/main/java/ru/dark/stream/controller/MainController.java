@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.dark.stream.config.player.AudioPlayer;
 import ru.dark.stream.model.MusicTrack;
-import ru.dark.stream.model.Playlist;
 import ru.dark.stream.playlist.PlaylistUpdater;
 import ru.dark.stream.utils.InternetMusicSercher;
 
@@ -24,7 +23,7 @@ import java.util.List;
 @RequestMapping
 public class MainController {
 
-    private static final int amountInSearchList = 15;
+    private static int amountInSearchList = 15;
     @Autowired
     Configuration configuration;
     @Autowired
@@ -43,7 +42,7 @@ public class MainController {
 
     @PostMapping("search")
     public String searchTrack(Model model, @RequestParam(value = "trackname", required = false) String trackname) throws IOException, TemplateException {
-        trackList.clear();
+        if (trackList.size() > 0) trackList.clear();
         InternetMusicSercher internetMusicSercher = new InternetMusicSercher();
         trackList.addAll(internetMusicSercher.searchMusic(trackname));
         if (trackList.size() == 0) {
@@ -51,20 +50,20 @@ public class MainController {
             model.addAttribute("mainPageMessage", "Не найдено");
             return "search";
         } else {
-        List<MusicTrack> sublist = new ArrayList<>();
-        if (trackList.size() > 1) {
-            for (int i = 0; i < amountInSearchList; i++) {
-                sublist.add(trackList.get(i));
+            List<MusicTrack> sublist = new ArrayList<>();
+            if (amountInSearchList > trackList.size()) amountInSearchList = trackList.size();
+            if (trackList.size() > 1) {
+                for (int i = 0; i < amountInSearchList; i++) {
+                    sublist.add(trackList.get(i));
+                }
             }
-        }
-//        System.out.println(sublist);
-        trackList = sublist;
-        String mainPageMessage = "Найденные треки: ";
-        model.addAttribute("playlist", trackList);
-        model.addAttribute("mainPageMessage", mainPageMessage);
-        if (trackname == null) {
-            return "no parameters";
-        }
+            trackList = sublist;
+            String mainPageMessage = "Найденные треки: ";
+            model.addAttribute("playlist", trackList);
+            model.addAttribute("mainPageMessage", mainPageMessage);
+            if (trackname == null) {
+                return "no parameters";
+            }
             return "search";
         }
     }
@@ -81,11 +80,11 @@ public class MainController {
     @GetMapping("add-{number}")
     public String addTrackToPlayList(Model model, @PathVariable int number) throws JsonProcessingException {
         MusicTrack musicTrack;
-            musicTrack = trackList.get(number);
-            serviceLayer.addTrackToPlayList(musicTrack);
-            String mainPageMessage = "Музыкальный трек № " + number +1 + " " + musicTrack.getTrackInfo() + " Добавлен в плейлист";
-            model.addAttribute("playlist", trackList);
-            model.addAttribute("mainPageMessage", mainPageMessage);
+        musicTrack = trackList.get(number);
+        serviceLayer.addTrackToPlayList(musicTrack);
+        String mainPageMessage = "Музыкальный трек № " + number + 1 + " " + musicTrack.getTrackInfo() + " Добавлен в плейлист";
+        model.addAttribute("playlist", trackList);
+        model.addAttribute("mainPageMessage", mainPageMessage);
         return "search";
     }
 
@@ -100,7 +99,7 @@ public class MainController {
 
     @GetMapping("/play-{number}")
     public String play(Model model, @PathVariable int number) {
-        String mainPageMessage = "Проигрывается: № " + number+1 + " " + trackList.get(number).getTrackInfo();
+        String mainPageMessage = "Проигрывается: № " + number + 1 + " " + trackList.get(number).getTrackInfo();
         System.out.println(mainPageMessage);
         model.addAttribute("playlist", trackList);
         model.addAttribute("mainPageMessage", mainPageMessage);

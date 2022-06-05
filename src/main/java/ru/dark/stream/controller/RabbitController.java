@@ -41,7 +41,6 @@ public class RabbitController {
         System.out.println("Emit to dark-stream-queue");
         Object o = template.convertSendAndReceive("dark-stream-queue-server", object);
         String objectToString = (String) o;
-        System.out.println(objectToString);
         return "Emit to queue";
     }
 }

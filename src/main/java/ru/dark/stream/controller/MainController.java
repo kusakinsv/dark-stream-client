@@ -100,7 +100,7 @@ public class MainController {
 
     @GetMapping("delete_from_playlist-{number}")
     public String deleteFromPlayList(Model model, @PathVariable int number) {
-        if (trackList.size() > 0 && number > 0) {
+        if (trackList.size() > 0) {
             number = number+1;
             serviceLayer.deleteFromPlayList(number);
         }
@@ -117,7 +117,6 @@ public class MainController {
     @GetMapping("/play-{number}")
     public String play(Model model, @PathVariable int number) {
         String mainPageMessage = "Проигрывается: № " + (number + 1) + " " + trackList.get(number).getTrackInfo();
-        System.out.println(mainPageMessage);
         model.addAttribute("playlist", trackList);
         model.addAttribute("mainPageMessage", mainPageMessage);
         if (AudioPlayer.isPlayed) AudioPlayer.stopMusic();
@@ -128,7 +127,6 @@ public class MainController {
     @GetMapping("/playlist_play-{number}")
     public String playlistPlay(Model model, @PathVariable int number) {
         String mainPageMessage = "Проигрывается: № " + (number + 1) + " " + trackList.get(number).getTrackInfo();
-        System.out.println(mainPageMessage);
         model.addAttribute("playlist", trackList);
         model.addAttribute("mainPageMessage", mainPageMessage);
         if (AudioPlayer.isPlayed) AudioPlayer.stopMusic();
@@ -139,7 +137,6 @@ public class MainController {
     @GetMapping("/playlist_stop")
     public String playlistStop(Model model) {
         String mainPageMessage = "Остановлено: " + AudioPlayer.getMusicTrack().getTrackInfo();
-        System.out.println(mainPageMessage);
         model.addAttribute("playlist", trackList);
         model.addAttribute("mainPageMessage", mainPageMessage);
         AudioPlayer.stopMusic();
@@ -150,7 +147,6 @@ public class MainController {
     @GetMapping("/stop")
     public String stop(Model model) {
         String mainPageMessage = "Остановлено: " + AudioPlayer.getMusicTrack().getTrackInfo();
-        System.out.println(mainPageMessage);
         model.addAttribute("playlist", trackList);
         model.addAttribute("mainPageMessage", mainPageMessage);
         AudioPlayer.stopMusic();

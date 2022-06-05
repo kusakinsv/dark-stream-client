@@ -40,7 +40,6 @@ public class ServiceLayer {
                 }
             }
         }catch (Exception e){}
-        System.out.println("ПОЛУЧЕНО: ");
         PlaylistUpdater.updated = false;
     }
 

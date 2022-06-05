@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties("id")
+@JsonIgnoreProperties(value = "id", ignoreUnknown = true)
 public class MusicTrack {
     String trackName;
     String author;

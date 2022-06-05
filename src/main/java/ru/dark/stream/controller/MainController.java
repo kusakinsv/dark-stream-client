@@ -42,7 +42,8 @@ public class MainController {
 
     @PostMapping("search")
     public String searchTrack(Model model, @RequestParam(value = "trackname", required = false) String trackname) throws IOException, TemplateException {
-        if (trackList.size() > 0) trackList.clear();
+        trackList = new ArrayList<>();
+//        if (trackList.size() > 0) trackList.clear();
         InternetMusicSercher internetMusicSercher = new InternetMusicSercher();
         trackList.addAll(internetMusicSercher.searchMusic(trackname));
         if (trackList.size() == 0) {
@@ -82,14 +83,14 @@ public class MainController {
         MusicTrack musicTrack;
         musicTrack = trackList.get(number);
         serviceLayer.addTrackToPlayList(musicTrack);
-        String mainPageMessage = "Музыкальный трек № " + number + 1 + " " + musicTrack.getTrackInfo() + " Добавлен в плейлист";
+        String mainPageMessage = "Музыкальный трек № " + (number + 1) + " " + musicTrack.getTrackInfo() + " Добавлен в плейлист";
         model.addAttribute("playlist", trackList);
         model.addAttribute("mainPageMessage", mainPageMessage);
         return "search";
     }
 
     @GetMapping("delete-{number}")
-    public ResponseEntity deleteFromPlayList(@PathVariable int number) {
+    public ResponseEntity deleteFromPlayListByNumber(@PathVariable int number) {
         if (trackList.size() > 0 && number > 0) {
             serviceLayer.deleteFromPlayList(number);
         }
@@ -97,9 +98,25 @@ public class MainController {
         return new ResponseEntity<>(message, responseHeaders, HttpStatus.OK);
     }
 
+    @GetMapping("delete_from_playlist-{number}")
+    public String deleteFromPlayList(Model model, @PathVariable int number) {
+        if (trackList.size() > 0 && number > 0) {
+            number = number+1;
+            serviceLayer.deleteFromPlayList(number);
+        }
+
+        serviceLayer.getPlayList();
+        trackList = PlaylistUpdater.playlist;
+
+        String mainPageMessage = "Музыкальный трек c номером " + number + " удален из плейлиста";
+        model.addAttribute("playlist", trackList);
+        model.addAttribute("mainPageMessage", mainPageMessage);
+        return "playlist";
+    }
+
     @GetMapping("/play-{number}")
     public String play(Model model, @PathVariable int number) {
-        String mainPageMessage = "Проигрывается: № " + number + 1 + " " + trackList.get(number).getTrackInfo();
+        String mainPageMessage = "Проигрывается: № " + (number + 1) + " " + trackList.get(number).getTrackInfo();
         System.out.println(mainPageMessage);
         model.addAttribute("playlist", trackList);
         model.addAttribute("mainPageMessage", mainPageMessage);
@@ -107,6 +124,28 @@ public class MainController {
         AudioPlayer.playMusic(trackList.get(number));
         return "search";
     }
+
+    @GetMapping("/playlist_play-{number}")
+    public String playlistPlay(Model model, @PathVariable int number) {
+        String mainPageMessage = "Проигрывается: № " + (number + 1) + " " + trackList.get(number).getTrackInfo();
+        System.out.println(mainPageMessage);
+        model.addAttribute("playlist", trackList);
+        model.addAttribute("mainPageMessage", mainPageMessage);
+        if (AudioPlayer.isPlayed) AudioPlayer.stopMusic();
+        AudioPlayer.playMusic(trackList.get(number));
+        return "playlist";
+    }
+
+    @GetMapping("/playlist_stop")
+    public String playlistStop(Model model) {
+        String mainPageMessage = "Остановлено: " + AudioPlayer.getMusicTrack().getTrackInfo();
+        System.out.println(mainPageMessage);
+        model.addAttribute("playlist", trackList);
+        model.addAttribute("mainPageMessage", mainPageMessage);
+        AudioPlayer.stopMusic();
+        return "playlist";
+    }
+
 
     @GetMapping("/stop")
     public String stop(Model model) {

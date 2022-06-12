@@ -23,7 +23,7 @@ import java.util.List;
 @RequestMapping
 public class MainController {
 
-    private static int amountInSearchList = 15;
+    private static int amountInSearchList = 100;
     @Autowired
     Configuration configuration;
     @Autowired

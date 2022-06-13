@@ -18,9 +18,8 @@ public class InternetMusicSercher {
         fulltrackList.addAll(resource.getMusic(title));
         resource = new DriveMusic();
         fulltrackList.addAll(resource.getMusic(title));
-        resource = new Muzofond();
-        fulltrackList.addAll(resource.getMusic(title));
+//        resource = new Muzofond();
+//        fulltrackList.addAll(resource.getMusic(title));
         return fulltrackList;
     }
-
 }

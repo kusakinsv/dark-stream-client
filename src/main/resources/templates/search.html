@@ -1,0 +1,48 @@
+<!--<#import "/spring.ftl" as spring/>-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <title>Person List</title>
+<body>
+<div id="header">
+    <h2>Введите название композиции</h2>
+</div>
+<div id="content">
+    <fieldset>
+        <legend>Введите название композиции</legend>
+        <form name="musicTrack" action="search" method="post">
+            <input type="text" id="trackname" name="trackname"/><br/>
+            <br>
+            <input type="submit" value="Поиск"/>
+        </form>
+    </fieldset>
+    <br/>
+    <a methods="post" th:href="@{/get_playlist}">GET PLAYLIST</a>
+    <br>
+    <h3 th:text="${mainPageMessage}"></h3>
+    <table class="datatable">
+        <tr>
+            <th>№</th>
+            <th>Author</th>
+            <th>Name</th>
+<!--            <th>Music</th>-->
+            <th>Controls</th>
+        </tr>
+
+
+        <tr class="itemlist" th:each="musicTrack:${playlist}">
+            <td th:text="${playlist.indexOf(musicTrack)+1}"></td>
+            <td th:text="${musicTrack.getAuthor}"></td>
+            <td th:text="${musicTrack.getTrackName}"></td>
+<!--            <td><a th:href="@{/play-{id}(id=${playlist.get(id-1})}">Delete</a></td>-->
+            <td><a methods="post" th:href="@{/play-{id}(id=${playlist.indexOf(musicTrack)})}">PLAY</a></td>
+            <td><a methods="post" th:href="@{/stop}">STOP</a></td>
+            <td><a methods="post" th:href="@{/add-{id}(id=${playlist.indexOf(musicTrack)})}">ADD</a></td>
+
+<!--            <td><input type="button" value="Стоп" formaction="stop-1.html" formmethod="post"/></td>-->
+<!--            <td><button class = "btn" th:onclick = "@{/play-1}">Проверка</button><td>-->
+    </tr>
+
+    </table>
+</div>
+</body>
+</html>

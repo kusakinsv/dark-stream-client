@@ -45,6 +45,7 @@ public class MainController {
         trackList = new ArrayList<>();
 //        if (trackList.size() > 0) trackList.clear();
         InternetMusicSercher internetMusicSercher = new InternetMusicSercher();
+        trackList.addAll(serviceLayer.searchInBase(trackname));
         trackList.addAll(internetMusicSercher.searchMusic(trackname));
         if (trackList.size() == 0) {
             model.addAttribute("playlist", trackList);

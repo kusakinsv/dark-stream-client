@@ -4,7 +4,9 @@ import freemarker.template.TemplateException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import ru.dark.stream.controller.ServiceLayer;
 import ru.dark.stream.model.MusicTrack;
+import ru.dark.stream.model.Separator;
 import ru.dark.stream.utils.InternetMusicSercher;
 
 import java.io.IOException;
@@ -29,9 +31,8 @@ public class ClientMainApplication {
 //        int numberToAdd = 1;
 
 //        ServiceLayer serviceLayer = context.getBean(ServiceLayer.class);
-//        serviceLayer.addTrackToPlayList(fulltrackList.get(numberToAdd));
-
-
+//        List<MusicTrack> musicTrackList = serviceLayer.searchInBase("Никто");
+//        musicTrackList.forEach(System.out::println);
 
     }
 

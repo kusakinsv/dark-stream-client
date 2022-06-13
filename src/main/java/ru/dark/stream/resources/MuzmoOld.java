@@ -33,7 +33,6 @@ public class MuzmoOld implements MusicResource {
                 String trackName = data[1]; // название
                 String trackDuration = element.child(0).child(0).child(0).child(3).child(0).child(0).text(); //время
                 String trackUrl = mainUrl + element.child(0).child(0).child(0).child(0).attr("data-file"); //ссылка
-
                 foundMusicTracks.add(new MusicTrack(trackName, trackAuthor, trackUrl, trackDuration, name));
             } catch (IndexOutOfBoundsException e) {
                 continue;

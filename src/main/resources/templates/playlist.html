@@ -1,6 +1,12 @@
 <!--<#import "/spring.ftl" as spring/>-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<!--<head>-->
+<!--    <style>-->
+<!--        .column {-->
+<!--        with: 100;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
 <title>Person List</title>
 <body>
 <div id="header">
@@ -25,18 +31,19 @@
             <th>Author</th>
             <th>Name</th>
             <!--            <th>Music</th>-->
-            <th>Controls</th>
+<!--            <th>Controls</th>-->
         </tr>
 
 
         <tr class="itemlist" th:each="musicTrack:${playlist}">
-            <td th:text="${playlist.indexOf(musicTrack)+1}"></td>
-            <td th:text="${musicTrack.getAuthor}"></td>
-            <td th:text="${musicTrack.getTrackName}"></td>
+            <td class="column" th:text="${playlist.indexOf(musicTrack)+1}"></td>
+            <td class="column" th:text="${musicTrack.getAuthor}"></td>
+            <td class="column" th:text="${musicTrack.getTrackName}"></td>
+            <td class="column" padding-right="20" th:text="${musicTrack.getDuration}"></td>
             <!--            <td><a th:href="@{/play-{id}(id=${playlist.get(id-1})}">Delete</a></td>-->
-            <td><a methods="post" th:href="@{/playlist_play-{id}(id=${playlist.indexOf(musicTrack)})}">PLAY</a></td>
-            <td><a methods="post" th:href="@{/playlist_stop}">STOP</a></td>
-            <td><a methods="post" th:href="@{/delete_from_playlist-{id}(id=${playlist.indexOf(musicTrack)})}">DELETE</a></td>
+            <td><a class="control" methods="post" th:href="@{/playlist_play-{id}(id=${playlist.indexOf(musicTrack)})}">PLAY</a></td>
+            <td><a class="control" methods="post" th:href="@{/playlist_stop}">STOP</a></td>
+            <td><a class="control" methods="post" th:href="@{/delete_from_playlist-{id}(id=${playlist.indexOf(musicTrack)})}">DELETE</a></td>
 
             <!--            <td><input type="button" value="Стоп" formaction="stop-1.html" formmethod="post"/></td>-->
             <!--            <td><button class = "btn" th:onclick = "@{/play-1}">Проверка</button><td>-->

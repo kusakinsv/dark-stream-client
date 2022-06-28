@@ -35,7 +35,7 @@
         </tr>
 
 
-        <tr class="itemlist" th:each="musicTrack:${p laylist}">
+        <tr class="itemlist" th:each="musicTrack:${playlist}">
             <td th:text="${playlist.indexOf(musicTrack)+1}"></td>
             <td th:text="${musicTrack.getAuthor}"></td>
             <td class="column" th:text="${musicTrack.getTrackName}"></td>

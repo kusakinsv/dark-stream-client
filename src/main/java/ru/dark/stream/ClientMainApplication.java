@@ -19,21 +19,6 @@ public class ClientMainApplication {
 
     public static void main(String[] args) throws URISyntaxException, IOException, TimeoutException, TemplateException {
         ApplicationContext context = SpringApplication.run(ClientMainApplication.class, args);
-//        String seacherdTrack = "NЮ - Никто";
-//
-//        List<MusicTrack> fulltrackList = new InternetMusicSercher().searchMusic(seacherdTrack);
-//        int counter = 0;
-//        for (MusicTrack x : fulltrackList) {
-//            System.out.println(counter + "" + x.toString());
-//            counter++;
-//        }
-//        System.out.println("Выполнено: найдено " + fulltrackList.size());
-//        int numberToAdd = 1;
-
-//        ServiceLayer serviceLayer = context.getBean(ServiceLayer.class);
-//        List<MusicTrack> musicTrackList = serviceLayer.searchInBase("Никто");
-//        musicTrackList.forEach(System.out::println);
-
     }
 
 
